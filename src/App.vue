@@ -14,13 +14,12 @@
       />
     </el-tooltip>
   </div>
-  <!--<router-view/>-->
 </template>
 <script>
 import logoSrc from './assets/images/logo.png'
-import TheHeader from './components/layouts/TheHeader.vue'
-import TheFooter from './components/layouts/TheFooter.vue'
-import BackToTop from './components/layouts/BackToTop.vue'
+import TheHeader from '@/components/layouts/TheHeader.vue'
+import TheFooter from '@/components/layouts/TheFooter.vue'
+import BackToTop from '@/components/layouts/BackToTop.vue'
 export default {
   name: 'App',
   mounted() {},
@@ -47,7 +46,6 @@ export default {
     if (this.$route.path === '/auth/login' || this.$route.path === '/auth/register') {
       this.is_visiable = false
     }
-    // console.log(this.$route.path)
   }
 }
 </script>
@@ -63,10 +61,8 @@ $input-border-focus: #00b5ad;
 $link-color: #12c4c5;
 $link-hover-color: #22ddde;
 $icon-font-path: 'bootstrap-sass/assets/fonts/bootstrap/';
-$fa-font-path: 'font-awesome/fonts/';
+// $fa-font-path: 'font-awesome/fonts/';
 
 @import 'bootstrap-sass/assets/stylesheets/bootstrap';
-@import 'font-awesome/scss/font-awesome';
-@import './styles/main';
-@import './styles/extra';
+// @import 'font-awesome/scss/font-awesome';
 </style>

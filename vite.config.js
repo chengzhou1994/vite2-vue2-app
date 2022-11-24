@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from 'vite'
 import legacy from '@vitejs/plugin-legacy'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import viteCompression from 'vite-plugin-compression'
-import viteSvgIcons from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import { ElementUiResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
@@ -22,17 +21,6 @@ export default ({ mode }) => {
       open: true, // 在服务器启动时自动在浏览器中打开应用程序
       host: HOST,
       port: process.env.PORT
-      // proxy: {
-      //   // 为开发服务器配置自定义代理规则
-      //   // 字符串简写写法
-      //   '/foo': 'http://192.168.xxx.xxx:xxxx',
-      //   // 选项写法
-      //   '/api': {
-      //     target: 'http://192.168.xxx.xxx:xxxx', //代理接口
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/api/, '')
-      //   }
-      // }
     },
 
     build: {
@@ -103,15 +91,7 @@ export default ({ mode }) => {
         threshold: 10240, //默认1025
         algorithm: 'gzip', //默认gzip
         ext: '.gz' //默认gz
-      }),
-      // 处理svg
-      viteSvgIcons({
-        iconDirs: [path.resolve('src/icons/svg')],
-        symbolId: 'icon-[name]'
       })
-    ],
-    optimizeDeps: {
-      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu']
-    }
+    ]
   })
 }

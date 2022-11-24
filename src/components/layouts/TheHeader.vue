@@ -17,7 +17,13 @@
 
       <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
         <ul class="nav navbar-nav">
-          <li class="nav-test" ref="nav" v-for="(item, index) in navList" :class="{ active: index === activeNavIndex }">
+          <li
+            class="nav-test"
+            ref="nav"
+            v-for="(item, index) in navList"
+            :class="{ active: index === activeNavIndex }"
+            :key="item.id"
+          >
             <router-link v-if="index === 0" :to="'/'" @click.native="changeNavIndex(index)">{{
               item.title
             }}</router-link>

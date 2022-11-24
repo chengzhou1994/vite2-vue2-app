@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import BreadCrumb from '../../components/layouts/BreadCrumb.vue'
+import BreadCrumb from '@/components/layouts/BreadCrumb.vue'
 export default {
   name: 'Special',
   components: {
