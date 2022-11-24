@@ -2,12 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from '@/store'
 import router from '@/router'
+import './styles/index.scss'
+import './plugins/element.js'
 import './directives'
-// import './icons'
-console.log(import.meta.env)
-// import { axios } from './utils/request'
-import './styles/index.less'
-
 Vue.config.productionTip = false
 
 new Vue({

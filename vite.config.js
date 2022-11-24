@@ -1,12 +1,14 @@
 import { defineConfig, loadEnv } from 'vite'
-// @vitejs/plugin-legacy 版本（最新的是2.0.0版本，需要vite3.0.0支持）
 import legacy from '@vitejs/plugin-legacy'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import viteCompression from 'vite-plugin-compression'
 import viteSvgIcons from 'vite-plugin-svg-icons'
+import Components from 'unplugin-vue-components/vite'
+import { ElementUiResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
 const HOST = '0.0.0.0'
 const CWD = process.cwd()
+const resolve = (dir) => path.resolve(__dirname, dir)
 export default ({ mode }) => {
   const { VITE_ENV } = loadEnv(mode, CWD)
   const data = loadEnv(mode, CWD)
@@ -61,48 +63,36 @@ export default ({ mode }) => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'), // 这里是将src目录配置别名为@方便在项目中导入src目录下的文件
-        '@styles': path.resolve(__dirname, 'src/styles'),
-        '@router': path.resolve(__dirname, 'src/router'),
-        '@views': path.resolve(__dirname, 'src/views'),
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@utils': path.resolve(__dirname, 'src/utils'),
-        '@assets': path.resolve(__dirname, 'src/assets'),
-        '/images': 'src/assets/images' // <img src="/images/logo.png" alt="" />
+        '@': resolve('src'),
+        '@styles': resolve('src/styles'),
+        '@router': resolve('src/router'),
+        '@views': resolve('src/views'),
+        '@components': resolve('src/components'),
+        '@utils': resolve('src/utils'),
+        '@assets': resolve('src/assets')
       },
       // 导入时想要省略的扩展名列表,引入文件未带后缀时，依次查找数组里面配置的后缀文件
       // 不建议使用 .vue 影响IDE和类型支持
       // 在Vite中，不建议（实测还是可以配置的）忽略自定义扩展名，因为会影响IDE和类型支持。因此需要完整书写
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'] //默认支持
     },
-
-    css: {
-      // 指定传递给CSS预处理器的选项
-      preprocessorOptions: {
-        less: {
-          additionalData: '@import "./src/styles/index.less";',
-          javascriptEnabled: true
-        }
-      }
-    },
     plugins: [
-      createVuePlugin({
-        jsx: true
+      createVuePlugin(),
+      //按需导入组件
+      Components({
+        //在此列表中的组件也会按需自动导入和注册
+        // dirs: ['./src/components'],
+        //此UI库的组件也会自动导入和注册（element-ui对应ElementUiResolver，Naive UI对应NaiveUiResolver，vant对应VantResolver，iview对应ViewUiResolver等等）
+        // 配置之后，无需在 main.js 引入 element-ui 了,想要使用element-ui 哪个组件，可直接在 template 中引入
+        resolvers: [ElementUiResolver()]
       }),
       legacy({
         targets: ['defaults', 'not IE 11'],
         additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-        // Define which polyfills your legacy bundle needs. They will be loaded
-        // from the Polyfill.io server. See the "Polyfills" section for more info.
         polyfills: [
           // Empty by default
         ],
-        // Toggles whether or not browserslist config sources are used.
-        // https://babeljs.io/docs/en/babel-preset-env#ignorebrowserslistconfig
         ignoreBrowserslistConfig: false,
-        // When true, core-js@3 modules are inlined based on usage.
-        // When false, global namespace APIs (eg: Object.entries) are loaded
-        // from the Polyfill.io server.
         corejs: true
       }),
       // 生成gzip
@@ -121,15 +111,7 @@ export default ({ mode }) => {
       })
     ],
     optimizeDeps: {
-      // @iconify/iconify: The dependency is dynamically and virtually loaded by @purge-icons/generated, so it needs to be specified explicitly
-      include: [
-        //  '@iconify/iconify',
-        //  'ant-design-vue/es/locale/zh_CN',
-        'moment/dist/locale/zh-cn',
-        //  'ant-design-vue/es/locale/en_US',
-        'moment/dist/locale/eu'
-      ]
-      // exclude: ['vue-demi', 'consolidate'],
+      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu']
     }
   })
 }

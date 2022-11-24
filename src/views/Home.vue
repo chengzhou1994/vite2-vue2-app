@@ -1,26 +1,23 @@
 <template>
-  <div>homeE22</div>
+  <div id="wrap">
+    <div class="row">
+      <Carousel />
+      <SeriesPlays />
+    </div>
+  </div>
 </template>
+
 <script>
+import Carousel from '../components/layouts/Carousel.vue'
+import SeriesPlays from '../components/layouts/SeriesPlays.vue'
+
 export default {
   name: 'Home',
-  components: {},
-  computed: {},
-  data: () => ({}),
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {}, //when keep-alive
-  deactivated() {}, //when keep-alive
-  beforeDestroy() {},
-  destroyed() {},
-  methods: {
-    // getDatList(){
-    //   HomeApi.getDatList()
-    // }
+  components: {
+    Carousel,
+    SeriesPlays
   }
 }
 </script>
+
+<style scoped></style>
